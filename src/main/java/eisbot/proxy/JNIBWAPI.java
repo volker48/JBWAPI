@@ -1,22 +1,14 @@
 package eisbot.proxy;
 
+import eisbot.proxy.model.Map;
+import eisbot.proxy.model.*;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 
-import eisbot.proxy.model.BaseLocation;
-import eisbot.proxy.model.ChokePoint;
-import eisbot.proxy.model.Map;
-import eisbot.proxy.model.Player;
-import eisbot.proxy.model.Region;
-import eisbot.proxy.model.Unit;
 import eisbot.proxy.types.BulletType;
 import eisbot.proxy.types.DamageType;
 import eisbot.proxy.types.ExplosionType;
@@ -27,6 +19,7 @@ import eisbot.proxy.types.UnitSizeType;
 import eisbot.proxy.types.UnitType;
 import eisbot.proxy.types.UpgradeType;
 import eisbot.proxy.types.WeaponType;
+import java.util.*;
 /**
  * JNI interface for the Brood War API.
  * 
@@ -189,6 +182,10 @@ public class JNIBWAPI {
 	public native void sendText(String message);
 	public native void setCommandOptimizationLevel(int level);
 	private native boolean isReplay();
+        
+        //added by Marcus McCurdy
+        private native int[] getUnitsOnTile(int tileX, int tileY);
+        private native int[] getStartLocationsBWAPI();
 	
 	// type data
 	private HashMap<Integer, UnitType> unitTypes = new HashMap<Integer, UnitType>();
@@ -269,6 +266,41 @@ public class JNIBWAPI {
 	public ArrayList<Unit> getNeutralUnits() {
 		return neutralUnits;
 	}
+        
+        /**
+         * Returns the units on the build tile located at (tileX, tileY)
+         * @param tileX the int x coordinate of the left side of the build tile
+         * @param tileY the int y coordinate of the top of the build tile
+         * @return A Set of Units that are on the tile or an empty Set if 
+         * there are no units on the build tile defined by (tileX, tileY)
+         */
+        public Set<Unit> getUnitsOnBuildTile(int tileX, int tileY) {
+            final int[] unitIds = getUnitsOnTile(tileX, tileY);
+            if (unitIds.length == 0) {
+                return Collections.emptySet();
+            } 
+            final Set<Unit> onTile = new HashSet<Unit>(unitIds.length);
+            for (int id : unitIds) {
+                onTile.add(getUnit(id));
+            }
+            return onTile;
+        }
+        
+        /**
+         * Returns all the start locations on the map.
+         * @return a List of TilePositions each one corresponding to a start
+         * location on the map. Note that if there are less players than the
+         * maximum for the map not every start location will have a player at
+         * it.
+         */
+        public List<TilePosition> getStartLocations() {
+            final int[] xyArray = getStartLocationsBWAPI();
+            final List<TilePosition> locations = new ArrayList<TilePosition>();
+            for (int i = 0; i < xyArray.length; i+=2) {
+                locations.add(new TilePosition(xyArray[i], xyArray[i+1]));
+            }
+            return locations;
+        }
 
 	/**
 	 * Returns the map. 
@@ -820,6 +852,8 @@ public class JNIBWAPI {
 			case 10:
 				listener.unitMorph(param1);
 				break;
+                        case 11:
+                                listener.unitComplete(param1);
 			}
 		}   
 		catch (Error e) {

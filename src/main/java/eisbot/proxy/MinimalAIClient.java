@@ -38,4 +38,8 @@ public class MinimalAIClient implements BWAPIEventListener {
 	public void unitHide(int unitID) { }
 	public void unitMorph(int unitID) { }
 	public void unitShow(int unitID) { }
+
+    @Override
+    public void unitComplete(int unitID) {
+    }
 }

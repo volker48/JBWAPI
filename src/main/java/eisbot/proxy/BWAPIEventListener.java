@@ -33,4 +33,5 @@ public interface BWAPIEventListener {
 	public void unitCreate(int unitID);
 	public void unitDestroy(int unitID);	
 	public void unitMorph(int unitID);
+        public void unitComplete(int unitID);
 }

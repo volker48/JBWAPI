@@ -102,7 +102,18 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_startClient(JNIEnv *env, jobje
 	while(Broodwar->isInGame())
     {
       jEnv->CallObjectMethod(classref, gameUpdateCallback);
-
+	  jthrowable exc;
+	  exc = jEnv->ExceptionOccurred();
+	  if (exc) {
+		jclass newExcCls;
+		jEnv->ExceptionDescribe();
+		newExcCls = jEnv->FindClass("java/lang/Exception");
+		if (newExcCls != NULL) {
+			jEnv->ThrowNew(newExcCls, "Exception during gameUpdate!");
+            return;
+		}
+	  }
+	  
 	  // process events
 	  if (Broodwar->getFrameCount()>1)
 	  {
@@ -143,6 +154,9 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_startClient(JNIEnv *env, jobje
 				break;
 			  case EventType::UnitMorph:
   			    jEnv->CallObjectMethod(classref, eventCallback, 10, e->getUnit()->getID(), 0);
+				break;
+			  case EventType::UnitComplete:
+				jEnv->CallObjectMethod(classref, eventCallback, 11, e->getUnit()->getID(), 0);
 				break;
 			  // Don't currently care about these
 			  case EventType::UnitRenegade:
@@ -1577,6 +1591,20 @@ JNIEXPORT jboolean JNICALL Java_eisbot_proxy_JNIBWAPI_canBuildHere(JNIEnv *env, 
 	}
 }
 
+/////////////getUnitsOnTile Definition/////////////
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsOnTile(JNIEnv *env, jobject jObj, jint tileX, jint tileY)
+{
+	int index = 0;
+	std::set<Unit*> units = Broodwar->getUnitsOnTile(tileX, tileY);
+	for (std::set<Unit*>::iterator i=units.begin();i!=units.end();i++) {
+		intBuf[index++] = (*i)->getID();
+	}
+	jintArray res = env->NewIntArray(index);
+	env->SetIntArrayRegion(res, 0, index, intBuf);
+	return res;
+}
+
+
 /////////////isReplay defn//////////////
 JNIEXPORT jboolean JNICALL Java_eisbot_proxy_JNIBWAPI_isReplay
   (JNIEnv *, jobject jObj)
@@ -1619,4 +1647,17 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_sendText
 JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_setCommandOptimizationLevel (JNIEnv * env, jobject jObj, jint level)
 {
 	Broodwar->setCommandOptimizationLevel(level);
+}
+
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getStartLocationsBWAPI(JNIEnv *env, jobject jObj)
+{
+	int index = 0;
+	std::set<TilePosition> locations = Broodwar->getStartLocations();
+	for (std::set<TilePosition>::iterator i = locations.begin(); i != locations.end(); i++) {
+		intBuf[index++] = i->x();
+		intBuf[index++] = i->y();
+	}
+	jintArray res = env->NewIntArray(index);
+	env->SetIntArrayRegion(res, 0, index, intBuf);
+	return res;
 }

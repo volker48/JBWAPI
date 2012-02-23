@@ -769,6 +769,14 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_printText
 
 /*
  * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    sendText
+ * Signature: (Ljava/lang/String;)V
+ */
+JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_sendText
+  (JNIEnv *, jobject, jstring);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
  * Method:    setCommandOptimizationLevel
  * Signature: (I)V
  */
@@ -781,6 +789,22 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_setCommandOptimizationLevel
  * Signature: ()Z
  */
 JNIEXPORT jboolean JNICALL Java_eisbot_proxy_JNIBWAPI_isReplay
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getUnitsOnTile
+ * Signature: (II)[I
+ */
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsOnTile
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getStartLocationsBWAPI
+ * Signature: ()[I
+ */
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getStartLocationsBWAPI
   (JNIEnv *, jobject);
 
 #ifdef __cplusplus
