@@ -6,7 +6,7 @@ package eisbot.proxy.model;
  */
 public class Player {
 
-	public static final int numAttributes = 8;
+	public static final int numAttributes = 10;
 
 	private int ID;
 	private int raceID;
@@ -16,8 +16,9 @@ public class Player {
 	private boolean enemy;
 	private boolean neutral;
 	private int color;
+        private final TilePosition startLocation;//adds two attributes x,y.
 	
-	private int minerals;
+        private int minerals;
 	private int gas;
 	private int supplyUsed;
 	private int supplyTotal;
@@ -32,6 +33,7 @@ public class Player {
 	private boolean[] researched = null;
 	private boolean[] upgrading = null;
 	private int[] upgradeLevel = null;
+        
 		
 	public Player(int[] data, int index) {
 		ID = data[index++];	
@@ -41,7 +43,10 @@ public class Player {
 		ally = (data[index++] == 1);	
 		enemy = (data[index++] == 1);	
 		neutral = (data[index++] == 1);	
-		color = data[index++];	
+		color = data[index++];
+                final int x = data[index++];
+                final int y = data[index++];
+                startLocation = new TilePosition(x, y);
 	}
 
 	public void update(int[] data) {
@@ -163,4 +168,8 @@ public class Player {
 	public boolean isUpgrading(int upgradeID) {
 		return (upgrading != null && upgradeID < upgrading.length) ? upgrading[upgradeID] : false;
 	}
+        
+        public TilePosition getStartLocation() {
+            return startLocation;
+        }
 }

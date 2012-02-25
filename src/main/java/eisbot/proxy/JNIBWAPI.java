@@ -44,6 +44,8 @@ public class JNIBWAPI {
         	System.out.println("Load ExampelAI");
         } catch (UnsatisfiedLinkError e) {
           System.err.println("Native code library failed to load.\n" + e);
+          String libPath = System.getProperty("java.library.path");
+          System.err.println("java.library.path is " + libPath);
         }
     }
 	

@@ -5,7 +5,9 @@ package eisbot.proxy.model;
  * @author Marcus McCurdy <marcus.mccurdy@gmail.com>
  */
 public class TilePosition {
-
+    public static final TilePosition INVALID = new TilePosition(1000, 1000);
+    public static final TilePosition NONE = new TilePosition(1000, 1001);
+    public static final TilePosition UNKNOWN = new TilePosition(1000,1002);
     private final int x;
     private final int y;
 
@@ -21,7 +23,7 @@ public class TilePosition {
     public int getY() {
         return y;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {

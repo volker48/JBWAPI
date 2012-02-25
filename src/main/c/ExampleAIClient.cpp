@@ -353,6 +353,9 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getPlayerInfo(JNIEnv *env
 		intBuf[index++] = (*i)->isEnemy(Broodwar->self()) ? 1 : 0;
 		intBuf[index++] = (*i)->isNeutral();
 		intBuf[index++] = (*i)->getColor().getID();
+		TilePosition tp = (*i)->getStartLocation();
+		intBuf[index++] = tp.x();
+		intBuf[index++] = tp.y();
 	  }
   }
 
