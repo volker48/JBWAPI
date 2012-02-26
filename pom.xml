@@ -7,7 +7,7 @@
     <packaging>jar</packaging>
     <version>0.2.1</version>
     <name>eisbot proxy</name>
-    <url>http://code.google.com/p/jnibwapi/</url>
+    <url>http://github.com/volker48/JBWAPI</url>
   
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
