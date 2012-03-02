@@ -22,7 +22,7 @@ public class MinimalAIClient implements BWAPIEventListener {
 	{
 		for(Unit u : bwapi.getAllUnits())
 		{
-			bwapi.drawCircle(u.getX(), u.getY(), 5, BWColor.RED, true, false);
+			bwapi.drawCircle(u.getPosition().getX(), u.getPosition().getY(), 5, BWColor.RED, true, false);
 		}
 	}
 	public void gameEnded() { }

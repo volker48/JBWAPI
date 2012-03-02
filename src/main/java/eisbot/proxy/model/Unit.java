@@ -6,17 +6,15 @@ package eisbot.proxy.model;
  */
 public class Unit {
 
-	public static final int numAttributes = 112;
+	public static final int numAttributes = 110;
 	public static final double TO_DEGREES = 180.0/Math.PI;
 	public static final double fixedScale = 100.0;
 
 	private int ID;
 	private int playerID;
 	private int typeID;
-	private int x;
-	private int y;
-	private int tileX;
-	private int tileY;
+        private TilePosition tilePosition;
+        private Position position;
 	private double angle;
 	private double velocityX;
 	private double velocityY;
@@ -136,10 +134,10 @@ public class Unit {
 		 index++; 	// ID = data[index++];
 		 playerID = data[index++];
 		 typeID = data[index++];
-		 x = data[index++];
-		 y = data[index++];
-		 tileX = data[index++];
-		 tileY = data[index++];
+		 int tileX = data[index++];
+		 int tileY = data[index++];
+                 tilePosition = new TilePosition(tileX, tileY);
+                 position = new Position(tilePosition);
 		 angle = ((double)data[index++])/TO_DEGREES;
 		 velocityX = ((double)data[index++])/fixedScale;
 		 velocityY = ((double)data[index++])/fixedScale;
@@ -259,21 +257,14 @@ public class Unit {
 		return typeID;
 	}
 
-	public int getX() {
-		return x;
-	}
+        public Position getPosition() {
+            return position;
+        }
+        
+        public TilePosition getTilePosition() {
+            return tilePosition;
+        }
 
-	public int getY() {
-		return y;
-	}
-
-	public int getTileX() {
-		return tileX;
-	}
-
-	public int getTileY() {
-		return tileY;
-	}
 
 	public double getAngle() {
 		return angle;

@@ -115,7 +115,9 @@ public class JNIBWAPI {
 	private native int[] getBaseLocations();
 
 	// unit commands: http://code.google.com/p/bwapi/wiki/Unit
-	public native void attack(int unitID, int x, int y); 
+        
+
+	private native void attack(int unitID, int x, int y); 
 	public native void attack(int unitID, int targetID);
 	public native void build(int unitID, int tx, int ty, int typeID);
 	public native void buildAddon(int unitID, int typeID);
@@ -224,6 +226,15 @@ public class JNIBWAPI {
 	public Collection<UnitCommandType> unitCommandTypes() { return unitCommandTypes.values(); }
 	public Collection<OrderType> orderTypes() { return orderTypes.values(); }
 	
+        /**
+         * Issues the attack move command to unit.
+         * @param unit the Unit recipient of the order.
+         * @param p the Position that is the destination of the attack move.
+         */
+        public void attackMove(Unit unit, Position p) {
+            this.attack(unit.getID(), p.getX(), p.getY());
+        }
+        
 	// game state accessors
 	public int getFrameCount() {
 		return gameFrame;

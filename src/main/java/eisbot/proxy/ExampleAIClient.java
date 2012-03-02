@@ -1,5 +1,6 @@
 package eisbot.proxy;
 
+import eisbot.proxy.model.Position;
 import java.util.HashSet;
 
 import eisbot.proxy.model.Unit;
@@ -92,7 +93,7 @@ public class ExampleAIClient implements BWAPIEventListener {
 					
 					for (Unit minerals : bwapi.getNeutralUnits()) {
 						if (minerals.getTypeID() == UnitTypes.Resource_Mineral_Field.ordinal() && !claimed.contains(minerals.getID())) {
-							double distance = Math.sqrt(Math.pow(minerals.getX() - unit.getX(), 2) + Math.pow(minerals.getY() - unit.getY(), 2));
+							double distance = Math.sqrt(Math.pow(minerals.getPosition().getX() - unit.getPosition().getX(), 2) + Math.pow(minerals.getPosition().getY() - unit.getPosition().getY(), 2));
 							
 							if (distance < 300) {
 								bwapi.rightClick(unit.getID(), minerals.getID());
@@ -117,7 +118,7 @@ public class ExampleAIClient implements BWAPIEventListener {
 			// build the pool under the overlord
 			for (Unit unit : bwapi.getMyUnits()) {
 				if (unit.getTypeID() == UnitTypes.Zerg_Overlord.ordinal()) {
-					bwapi.build(poolDrone, unit.getTileX(), unit.getTileY(), UnitTypes.Zerg_Spawning_Pool.ordinal());
+					bwapi.build(poolDrone, unit.getTilePosition().getX(), unit.getTilePosition().getY(), UnitTypes.Zerg_Spawning_Pool.ordinal());
 				}				
 			}
 		}
@@ -150,25 +151,38 @@ public class ExampleAIClient implements BWAPIEventListener {
 		for (Unit unit : bwapi.getMyUnits()) {
 			if (unit.getTypeID() == UnitTypes.Zerg_Zergling.ordinal() && unit.isIdle()) {
 				for (Unit enemy : bwapi.getEnemyUnits()) {
-					bwapi.attack(unit.getID(), enemy.getX(), enemy.getY());
+                                        bwapi.attackMove(unit, enemy.getPosition());
 					break;
 				}
 			}
 		}
 	}
 
+    @Override
 	public void gameEnded() {}
+    @Override
 	public void keyPressed(int keyCode) {}
+    @Override
 	public void matchEnded(boolean winner) {}
+    @Override
 	public void nukeDetect(int x, int y) {}
+    @Override
 	public void nukeDetect() {}
+    @Override
 	public void playerLeft(int id) {}
+    @Override
 	public void unitCreate(int unitID) {}
+    @Override
 	public void unitDestroy(int unitID) {}
+    @Override
 	public void unitDiscover(int unitID) {}
+    @Override
 	public void unitEvade(int unitID) {}
+    @Override
 	public void unitHide(int unitID) {}
+    @Override
 	public void unitMorph(int unitID) {}
+    @Override
 	public void unitShow(int unitID) {}
 
     @Override
