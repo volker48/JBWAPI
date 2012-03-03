@@ -1,16 +1,27 @@
 package eisbot.proxy.types;
+
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * Represents a StarCraft explosion type.
+ * Represents a StarCraft order type.
  * 
  * For a description of fields see: http://code.google.com/p/bwapi/wiki/Order
+ * @see Order
  */
+@Deprecated
 public class OrderType {
 
 	public static final int numAttributes = 1;
+    
+    private final Map<Integer, OrderTypeTypes> intToType =
+            new HashMap<Integer, OrderTypeTypes>(OrderTypeTypes.values().length);
 
 	private String name;	
 	private int ID;
-	
+
+    @Deprecated
 	public enum OrderTypeTypes {
 	    Die,
 	    Stop,

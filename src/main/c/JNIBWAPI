@@ -1,7 +1,5 @@
 Compiled from "JNIBWAPI.java"
 public class eisbot.proxy.JNIBWAPI extends java.lang.Object{
-public native void attack(int, int, int);
-  Signature: (III)V
 public native void attack(int, int);
   Signature: (II)V
 public native void build(int, int, int, int);
@@ -160,6 +158,8 @@ public java.util.Collection unitCommandTypes();
   Signature: ()Ljava/util/Collection;
 public java.util.Collection orderTypes();
   Signature: ()Ljava/util/Collection;
+public void attackMove(eisbot.proxy.model.Unit, eisbot.proxy.model.Position);
+  Signature: (Leisbot/proxy/model/Unit;Leisbot/proxy/model/Position;)V
 public int getFrameCount();
   Signature: ()I
 public eisbot.proxy.model.Player getSelf();
@@ -184,10 +184,18 @@ public java.util.ArrayList getNeutralUnits();
   Signature: ()Ljava/util/ArrayList;
 public java.util.Set getUnitsOnBuildTile(int, int);
   Signature: (II)Ljava/util/Set;
+public java.util.Set getUnitsOnBuildTile(eisbot.proxy.model.TilePosition);
+  Signature: (Leisbot/proxy/model/TilePosition;)Ljava/util/Set;
 public java.util.List getStartLocations();
   Signature: ()Ljava/util/List;
+public native void setScreenPosition(int, int);
+  Signature: (II)V
+public eisbot.proxy.model.Position getNearestChokePoint(eisbot.proxy.model.Position);
+  Signature: (Leisbot/proxy/model/Position;)Leisbot/proxy/model/Position;
 public eisbot.proxy.model.Map getMap();
   Signature: ()Leisbot/proxy/model/Map;
+public void move(eisbot.proxy.model.Unit, eisbot.proxy.model.Position);
+  Signature: (Leisbot/proxy/model/Unit;Leisbot/proxy/model/Position;)V
 public void loadTypeData();
   Signature: ()V
 public void loadMapData(boolean);

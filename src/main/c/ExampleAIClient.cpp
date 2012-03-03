@@ -738,14 +738,14 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getOrderTypes(JNIEnv *env
 JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnits(JNIEnv *env, jobject jObj) 
 {
   int index = 0;
-
+	
   std::set<Unit*> units = Broodwar->getAllUnits();
   for(std::set<Unit*>::iterator i=units.begin();i!=units.end();i++) {
 	  intBuf[index++] = (*i)->getID();
 	  intBuf[index++] = (*i)->getPlayer()->getID();
 	  intBuf[index++] = (*i)->getType().getID();
 	  intBuf[index++] = (*i)->getPosition().x();
-	  intBuf[index++] = (*i)->getPosition().y();
+	  intBuf[index++] = (*i)->getPosition().y();	  
 	  intBuf[index++] = (*i)->getTilePosition().x();
 	  intBuf[index++] = (*i)->getTilePosition().y();
 	  intBuf[index++] = (int)(TO_DEGREES*(*i)->getAngle());
@@ -853,6 +853,7 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnits(JNIEnv *env, job
 	  intBuf[index++] = (*i)->isUnpowered() ? 1 : 0;
 	  intBuf[index++] = (*i)->isUpgrading() ? 1 : 0;
 	  intBuf[index++] = (*i)->isVisible() ? 1 : 0;
+	  intBuf[index++] = (*i)->isConstructing() ? 1 : 0;
 	  // last attacking player
 	  // Nydus exit
 	  // Carrier
@@ -950,6 +951,7 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_analyzeTerrain(JNIEnv *env, jo
 	regionMap.clear();
 	BWTA::readMap();
 	BWTA::analyze();
+	
 
 	// assign IDs to regions
     int regionID = 1;
@@ -960,6 +962,7 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_analyzeTerrain(JNIEnv *env, jo
 		regionID++;
 	}
 }
+
 
 JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getChokePoints(JNIEnv *env, jobject jObj)
 {
@@ -982,6 +985,34 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getChokePoints(JNIEnv *en
   jintArray result =env->NewIntArray(index);
   env->SetIntArrayRegion(result, 0, index, intBuf);
   return result;
+}
+
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getNearestChokePointBWAPI(JNIEnv *env, jobject jObj, jint x, jint y)
+{	
+	BWAPI::Position p = BWAPI::Position(x, y);	
+	BWTA::Chokepoint *cp = BWTA::getNearestChokepoint(p);
+	int index = 0;
+	if (cp == 0) {
+		intBuf[index++] = 0;
+	} else {
+		intBuf[index++] = cp->getCenter().x();
+		intBuf[index++] = cp->getCenter().y();
+		intBuf[index++] = (int)(cp->getWidth()*fixedScale);
+		intBuf[index++] = regionMap[cp->getRegions().first];
+		intBuf[index++] = regionMap[cp->getRegions().second];
+		intBuf[index++] = cp->getSides().first.x();
+		intBuf[index++] = cp->getSides().first.y();
+		intBuf[index++] = cp->getSides().second.x();
+		intBuf[index++] = cp->getSides().second.y();
+	}
+	jintArray result = env->NewIntArray(index);
+	env->SetIntArrayRegion(result, 0, index, intBuf);
+	return result;
+}
+
+JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_setScreenPosition(JNIEnv *env, jobject jObj, jint x, jint y)
+{
+	Broodwar->setScreenPosition(x, y);
 }
 
 JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getRegions(JNIEnv *env, jobject jObj)

@@ -807,6 +807,22 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsOnTile
 JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getStartLocationsBWAPI
   (JNIEnv *, jobject);
 
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getNearestChokePointBWAPI
+ * Signature: (II)[I
+ */
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getNearestChokePointBWAPI
+  (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    setScreenPosition
+ * Signature: (II)V
+ */
+JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_setScreenPosition
+  (JNIEnv *, jobject, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif
