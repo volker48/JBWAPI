@@ -127,6 +127,14 @@ public class JNIBWAPI {
 	public native void upgrade(int unitID, int updateID);
 	public native void setRallyPoint(int unitID, int x, int y);
 	public native void setRallyPoint(int unitID, int targetID);
+
+    /**
+     * @see #move(eisbot.proxy.model.Unit, eisbot.proxy.model.Position)
+     * @param unitID
+     * @param x
+     * @param y
+     */
+    @Deprecated
 	public native void move(int unitID, int x, int y);
 	public native void patrol(int unitID, int x, int y);
 	public native void holdPosition(int unitID);
@@ -323,6 +331,10 @@ public class JNIBWAPI {
 	public Map getMap() {
 		return map;
 	}
+    
+    public void move(Unit unit, Position destination) {
+        move(unit.getID(), destination.getX(), destination.getY());
+    }
 	
 	/**
 	 * Loads type data from BWAPI.
