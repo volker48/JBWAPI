@@ -5,7 +5,7 @@
     <groupId>com.marcusmccurdy</groupId>
     <artifactId>jbwapi</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.2</version>
+    <version>0.2.3-SNAPSHOT</version>
     <name>Java Broodwar API</name>
     <url>http://github.com/volker48/JBWAPI</url>
   
