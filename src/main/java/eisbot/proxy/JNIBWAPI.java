@@ -12,8 +12,8 @@ import java.util.List;
  * JNI interface for the Brood War API.
  * <p/>
  * This focus of this interface is to provide the callback and game state query
- * functionality in BWAPI. Utility functions such as can buildHere have not
- * yet been implemented.
+ * functionality in BWAPI. Some utility functions have not been implemented yet,
+ * but are on the way.
  * <p/>
  * Note: for thread safety and game state sanity, all native calls should be invoked from the callback methods.
  * <p/>
@@ -247,6 +247,8 @@ public class JNIBWAPI {
 
     public native void setGameSpeed(int speed);
 
+    private native int getLastErrorBWAPI();
+
     // draw commands
     public native void drawBox(int left, int top, int right, int bottom, int color, boolean fill, boolean screenCoords);
 
@@ -285,6 +287,10 @@ public class JNIBWAPI {
     private native int[] getStartLocationsBWAPI();
 
     private native int[] getNearestChokePointBWAPI(int x, int y);
+    
+    private native int[] getUnitsInRectangleBWAPI(int top, int left, int bottom, int right);
+    
+    private native int[] getUnitsInRadiusBWAPI(int centerX, int centerY, int radius);
 
     // type data
     private HashMap<Integer, UnitType> unitTypes = new HashMap<Integer, UnitType>();
@@ -510,6 +516,11 @@ public class JNIBWAPI {
         return map;
     }
 
+    /**
+     * Orders Unit unit to move to Position destination.
+     * @param unit the Unit recipient of the command
+     * @param destination the Position destination
+     */
     public void move(Unit unit, Position destination) {
         move(unit.getID(), destination.getX(), destination.getY());
     }
@@ -601,9 +612,13 @@ public class JNIBWAPI {
     }
 
     /**
-     * Loads map data and BWTA data.
-     * <p/>
-     * TODO: figure out how to use BWTA's internal map storage
+     * Loads data for the current map e.g. width and also runs BWTA analysis on the map.
+     * You only need to call this method once in the gameStarted call back.
+     * <b>WARNING:</b> This will take several seconds to analize the map, but will save a
+     * file of the analysis so subsequent loads of the same map will not encounter this
+     * delay. You must have a bwapi-data folder in the same folder where you are running
+     * the command to launch your AI.
+     * @param enableBWTA
      */
     public void loadMapData(boolean enableBWTA) {
         map = new Map(getMapWidth(), getMapHeight(), getMapName(), getMapHash(), getHeightData(), getBuildableData(), getWalkableData());
@@ -935,5 +950,32 @@ public class JNIBWAPI {
         } catch (Error e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Retreives the last error set by BWAPI
+     * @return
+     */
+    public BWError getLastError() {
+        int errorId = getLastErrorBWAPI();
+        return BWError.fromId(errorId);
+    }
+    
+    public Set<Unit> getUnitsInRectangle(Position topLeft, Position bottomRight) {
+        int[] unitIds = getUnitsInRectangleBWAPI(topLeft.getX(), topLeft.getY(), bottomRight.getX(), bottomRight.getY());
+        return unitsFromIds(unitIds);
+    }
+    
+    public Set<Unit> getUnitsInRadius(Position center, int radius) {
+        int[] unitIds = getUnitsInRadiusBWAPI(center.getX(), center.getY(), radius);
+        return unitsFromIds(unitIds);
+    }
+    
+    private Set<Unit> unitsFromIds(int[] unitIds) {
+        final Set<Unit> units = new HashSet<Unit>(unitIds.length);
+        for (int id : unitIds) {
+            units.add(getUnit(id));
+        }
+        return units;
     }
 }

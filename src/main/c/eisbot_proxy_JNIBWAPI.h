@@ -705,6 +705,14 @@ JNIEXPORT void JNICALL Java_eisbot_proxy_JNIBWAPI_setGameSpeed
 
 /*
  * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getLastErrorBWAPI
+ * Signature: ()I
+ */
+JNIEXPORT jint JNICALL Java_eisbot_proxy_JNIBWAPI_getLastErrorBWAPI
+  (JNIEnv *, jobject);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
  * Method:    drawBox
  * Signature: (IIIIIZZ)V
  */
@@ -814,6 +822,22 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getStartLocationsBWAPI
  */
 JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getNearestChokePointBWAPI
   (JNIEnv *, jobject, jint, jint);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getUnitsInRectangleBWAPI
+ * Signature: (IIII)[I
+ */
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsInRectangleBWAPI
+  (JNIEnv *, jobject, jint, jint, jint, jint);
+
+/*
+ * Class:     eisbot_proxy_JNIBWAPI
+ * Method:    getUnitsInRadiusBWAPI
+ * Signature: (III)[I
+ */
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsInRadiusBWAPI
+  (JNIEnv *, jobject, jint, jint, jint);
 
 /*
  * Class:     eisbot_proxy_JNIBWAPI

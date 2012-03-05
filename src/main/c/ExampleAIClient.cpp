@@ -1638,6 +1638,42 @@ JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsOnTile(JNIEnv *en
 	return res;
 }
 
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsInRectangleBWAPI(JNIEnv *env, jobject jObj, jint left, jint top, jint right, jint bottom)
+{
+	int index = 0;
+	std::set<Unit*> units = Broodwar->getUnitsInRectangle(left, top, right, bottom);
+	for (std::set<Unit*>::iterator i=units.begin();i!=units.end();i++) {
+		intBuf[index++] = (*i)->getID();
+	}
+	jintArray res = env->NewIntArray(index);
+	env->SetIntArrayRegion(res, 0, index, intBuf);	
+	return res;
+}
+
+JNIEXPORT jintArray JNICALL Java_eisbot_proxy_JNIBWAPI_getUnitsInRadiusBWAPI(JNIEnv *env, jobject jObj, jint centerX, jint centerY, jint radius)
+{
+	int index = 0;
+	Position center = Position(centerX, centerY);
+	std::set<Unit*> units = Broodwar->getUnitsInRadius(center, radius);
+	for (std::set<Unit*>::iterator i=units.begin();i!=units.end();i++) {
+		intBuf[index++] = (*i)->getID();
+	}
+	jintArray res = env->NewIntArray(index);
+	env->SetIntArrayRegion(res, 0, index, intBuf);	
+	return res;
+}
+
+JNIEXPORT jint JNICALL Java_eisbot_proxy_JNIBWAPI_getLastErrorBWAPI(JNIEnv *env, jobject jObj)
+{
+	Error e = Broodwar->getLastError();
+	if (e == 0) {
+		//19 maps to None
+		return 19;
+	} else {
+		return e.getID();
+	}
+}
+
 
 /////////////isReplay defn//////////////
 JNIEXPORT jboolean JNICALL Java_eisbot_proxy_JNIBWAPI_isReplay

@@ -190,8 +190,8 @@ public java.util.List getStartLocations();
   Signature: ()Ljava/util/List;
 public native void setScreenPosition(int, int);
   Signature: (II)V
-public eisbot.proxy.model.Position getNearestChokePoint(eisbot.proxy.model.Position);
-  Signature: (Leisbot/proxy/model/Position;)Leisbot/proxy/model/Position;
+public eisbot.proxy.model.ChokePoint getNearestChokePoint(eisbot.proxy.model.Position);
+  Signature: (Leisbot/proxy/model/Position;)Leisbot/proxy/model/ChokePoint;
 public eisbot.proxy.model.Map getMap();
   Signature: ()Leisbot/proxy/model/Map;
 public void move(eisbot.proxy.model.Unit, eisbot.proxy.model.Position);
@@ -212,6 +212,12 @@ public void gameStarted();
   Signature: ()V
 public void keyPressed(int);
   Signature: (I)V
+public eisbot.proxy.types.BWError getLastError();
+  Signature: ()Leisbot/proxy/types/BWError;
+public java.util.Set getUnitsInRectangle(eisbot.proxy.model.Position, eisbot.proxy.model.Position);
+  Signature: (Leisbot/proxy/model/Position;Leisbot/proxy/model/Position;)Ljava/util/Set;
+public java.util.Set getUnitsInRadius(eisbot.proxy.model.Position, int);
+  Signature: (Leisbot/proxy/model/Position;I)Ljava/util/Set;
 static {};
   Signature: ()V
 }
