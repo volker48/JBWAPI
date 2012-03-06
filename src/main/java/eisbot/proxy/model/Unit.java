@@ -1,6 +1,6 @@
 package eisbot.proxy.model;
 
-import eisbot.proxy.types.Order;
+import eisbot.proxy.types.*;
 
 /**
  * Represents a StarCraft unit.
@@ -128,6 +128,7 @@ public class Unit {
     private boolean upgrading;
     private boolean visible;
     private boolean constructing;
+    private UnitType type;
 
     public Unit(int ID) {
         this.ID = ID;
@@ -141,6 +142,7 @@ public class Unit {
         index++;     // ID = data[index++];
         playerID = data[index++];
         typeID = data[index++];
+        type = UnitType.fromId(typeID);
         x = data[index++];
         y = data[index++];
         tileX = data[index++];
@@ -716,5 +718,9 @@ public class Unit {
      */
     public boolean isConstructing() {
         return constructing;
+    }
+    
+    public UnitType getType() {
+        return type;
     }
 }

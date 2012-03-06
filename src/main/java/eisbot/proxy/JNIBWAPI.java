@@ -148,12 +148,24 @@ public class JNIBWAPI {
     public native void attack(int unitID, int targetID);
 
     public native void build(int unitID, int tx, int ty, int typeID);
+    
+    public void build(int unitID, int tx, int ty, UnitType type) {
+        build(unitID, tx, ty, UnitType.toId(type));
+    }
 
     public native void buildAddon(int unitID, int typeID);
+    
+    public void train(Unit trainer, UnitType toTrain) {
+        train(trainer.getID(), toTrain.cppOrd);
+    }
 
     public native void train(int unitID, int typeID);
 
-    public native void morph(int unitID, int typeID);
+    private native void morph(int unitID, int typeID);
+    
+    public void morph(int unitID, UnitType type) {
+        morph(unitID, UnitType.toId(type));
+    }
 
     public native void research(int unitID, int techID);
 
@@ -204,6 +216,11 @@ public class JNIBWAPI {
 
     public native void load(int unitID, int targetID);
 
+    /**
+     * Unloads the Unit with targetID from the Unit with unitID
+     * @param unitID the int id of the Unit to unload
+     * @param targetID the int id of the container unit
+     */
     public native void unload(int unitID, int targetID);
 
     public native void unloadAll(int unitID);
@@ -270,8 +287,15 @@ public class JNIBWAPI {
 
     // Extended Commands (Fobbah)
     public native boolean hasCreep(int tx, int ty);
+    
+    public boolean canBuildHere(Unit unit, TilePosition tp, UnitType type, boolean checkExplored) {
+        return canBuildHere(unit.getID(), tp.getX(), tp.getY(), UnitType.toId(type), checkExplored);
+    }
+    public boolean canBuildHere(Unit unit, int tx, int ty, UnitType type, boolean checkExplored) {
+        return canBuildHere(unit.getID(), tx, ty, UnitType.toId(type), checkExplored);
+    }
 
-    public native boolean canBuildHere(int unitID, int tx, int ty, int utypeID, boolean checkExplored);
+    private native boolean canBuildHere(int unitID, int tx, int ty, int utypeID, boolean checkExplored);
 
     public native void printText(String message);
 
@@ -293,7 +317,7 @@ public class JNIBWAPI {
     private native int[] getUnitsInRadiusBWAPI(int centerX, int centerY, int radius);
 
     // type data
-    private HashMap<Integer, UnitType> unitTypes = new HashMap<Integer, UnitType>();
+    private HashMap<Integer, UnitInfo> unitTypes = new HashMap<Integer, UnitInfo>();
     private HashMap<Integer, TechType> techTypes = new HashMap<Integer, TechType>();
     private HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<Integer, UpgradeType>();
     private HashMap<Integer, WeaponType> weaponTypes = new HashMap<Integer, WeaponType>();
@@ -305,10 +329,14 @@ public class JNIBWAPI {
     private HashMap<Integer, OrderType> orderTypes = new HashMap<Integer, OrderType>();
 
     // type data accessors
-    public UnitType getUnitType(int unitID) {
+    private UnitInfo getUnitInfo(int unitID) {
         return unitTypes.get(unitID);
     }
-
+    
+    public UnitInfo getUnitInfo(UnitType type) {
+        return unitTypes.get(UnitType.toId(type));
+    }
+    
     public TechType getTechType(int techID) {
         return techTypes.get(techID);
     }
@@ -345,7 +373,7 @@ public class JNIBWAPI {
         return orderTypes.get(orderID);
     }
 
-    public Collection<UnitType> unitTypes() {
+    public Collection<UnitInfo> unitTypes() {
         return unitTypes.values();
     }
 
@@ -531,8 +559,8 @@ public class JNIBWAPI {
     public void loadTypeData() {
         // unit types
         int[] unitTypeData = getUnitTypes();
-        for (int index = 0; index < unitTypeData.length; index += UnitType.numAttributes) {
-            UnitType type = new UnitType(unitTypeData, index);
+        for (int index = 0; index < unitTypeData.length; index += UnitInfo.numAttributes) {
+            UnitInfo type = new UnitInfo(unitTypeData, index);
             type.setName(getUnitTypeName(type.getID()));
             unitTypes.put(type.getID(), type);
         }

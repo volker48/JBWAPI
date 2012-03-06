@@ -118,7 +118,7 @@ public native void sendText(java.lang.String);
   Signature: (Ljava/lang/String;)V
 public native void setCommandOptimizationLevel(int);
   Signature: (I)V
-public eisbot.proxy.types.UnitType getUnitType(int);
+public eisbot.proxy.types.UnitInfo getUnitType(int);
   Signature: (I)Leisbot/proxy/types/UnitType;
 public eisbot.proxy.types.TechType getTechType(int);
   Signature: (I)Leisbot/proxy/types/TechType;

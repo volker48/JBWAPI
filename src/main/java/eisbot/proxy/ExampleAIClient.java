@@ -1,10 +1,10 @@
 package eisbot.proxy;
 
-import eisbot.proxy.model.Position;
 import java.util.HashSet;
 
 import eisbot.proxy.model.Unit;
-import eisbot.proxy.types.UnitType.UnitTypes;
+import eisbot.proxy.types.UnitType;
+
 /**
  * Example Java AI Client using JNI-BWAPI. 
  * 
@@ -78,9 +78,9 @@ public class ExampleAIClient implements BWAPIEventListener {
 	
 		// spawn a drone
 		for (Unit unit : bwapi.getMyUnits()) {
-			if (unit.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
+			if (unit.getType() == UnitType.Zerg_Larva) {
 				if (bwapi.getSelf().getMinerals() >= 50 && !morphedDrone) {
-					bwapi.morph(unit.getID(), UnitTypes.Zerg_Drone.ordinal());
+					bwapi.morph(unit.getID(), UnitType.Zerg_Drone);
 					morphedDrone = true;
 				}
 			}
@@ -88,11 +88,11 @@ public class ExampleAIClient implements BWAPIEventListener {
 				
 		// collect minerals
 		for (Unit unit : bwapi.getMyUnits()) {
-			if (unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal()) {
+			if (unit.getTypeID() == UnitType.Zerg_Drone.ordinal()) {
 				if (unit.isIdle() && unit.getID() != poolDrone) {
 					
 					for (Unit minerals : bwapi.getNeutralUnits()) {
-						if (minerals.getTypeID() == UnitTypes.Resource_Mineral_Field.ordinal() && !claimed.contains(minerals.getID())) {
+						if (minerals.getTypeID() == UnitType.Resource_Mineral_Field.ordinal() && !claimed.contains(minerals.getID())) {
 							double distance = Math.sqrt(Math.pow(minerals.getPosition().getX() - unit.getPosition().getX(), 2) + Math.pow(minerals.getPosition().getY() - unit.getPosition().getY(), 2));
 							
 							if (distance < 300) {
@@ -109,7 +109,7 @@ public class ExampleAIClient implements BWAPIEventListener {
 		// build a spawning pool
 		if (bwapi.getSelf().getMinerals() >= 200 && poolDrone < 0) {
 			for (Unit unit : bwapi.getMyUnits()) {
-				if (unit.getTypeID() == UnitTypes.Zerg_Drone.ordinal()) {
+				if (unit.getTypeID() == UnitType.Zerg_Drone.ordinal()) {
 					poolDrone = unit.getID();
 					break;
 				}
@@ -117,8 +117,8 @@ public class ExampleAIClient implements BWAPIEventListener {
 			
 			// build the pool under the overlord
 			for (Unit unit : bwapi.getMyUnits()) {
-				if (unit.getTypeID() == UnitTypes.Zerg_Overlord.ordinal()) {
-					bwapi.build(poolDrone, unit.getTilePosition().getX(), unit.getTilePosition().getY(), UnitTypes.Zerg_Spawning_Pool.ordinal());
+				if (unit.getTypeID() == UnitType.Zerg_Overlord.ordinal()) {
+					bwapi.build(poolDrone, unit.getTilePosition().getX(), unit.getTilePosition().getY(), UnitType.Zerg_Spawning_Pool.ordinal());
 				}				
 			}
 		}
@@ -127,8 +127,8 @@ public class ExampleAIClient implements BWAPIEventListener {
 		if (bwapi.getSelf().getSupplyUsed() + 2 >= bwapi.getSelf().getSupplyTotal() && bwapi.getSelf().getSupplyTotal() > supplyCap) {			
 			if (bwapi.getSelf().getMinerals() >= 100) {
 				for (Unit larva : bwapi.getMyUnits()) {
-					if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
-						bwapi.morph(larva.getID(), UnitTypes.Zerg_Overlord.ordinal());
+					if (larva.getTypeID() == UnitType.Zerg_Larva.ordinal()) {
+						bwapi.morph(larva.getID(), UnitType.Zerg_Overlord);
 						supplyCap = bwapi.getSelf().getSupplyTotal();
 					}
 				}									
@@ -137,10 +137,10 @@ public class ExampleAIClient implements BWAPIEventListener {
 		// spawn zerglings
 		else if (bwapi.getSelf().getMinerals() >= 50) {
 			for (Unit unit : bwapi.getMyUnits()) {
-				if (unit.getTypeID() == UnitTypes.Zerg_Spawning_Pool.ordinal() && unit.isCompleted()) {
+				if (unit.getTypeID() == UnitType.Zerg_Spawning_Pool.ordinal() && unit.isCompleted()) {
 					for (Unit larva : bwapi.getMyUnits()) {
-						if (larva.getTypeID() == UnitTypes.Zerg_Larva.ordinal()) {
-							bwapi.morph(larva.getID(), UnitTypes.Zerg_Zergling.ordinal());
+						if (larva.getTypeID() == UnitType.Zerg_Larva.ordinal()) {
+							bwapi.morph(larva.getID(), UnitType.Zerg_Zergling);
 						}
 					}					
 				}
@@ -149,7 +149,7 @@ public class ExampleAIClient implements BWAPIEventListener {
 
 		// attack
 		for (Unit unit : bwapi.getMyUnits()) {
-			if (unit.getTypeID() == UnitTypes.Zerg_Zergling.ordinal() && unit.isIdle()) {
+			if (unit.getTypeID() == UnitType.Zerg_Zergling.ordinal() && unit.isIdle()) {
 				for (Unit enemy : bwapi.getEnemyUnits()) {
                                         bwapi.attackMove(unit, enemy.getPosition());
 					break;
