@@ -19,7 +19,7 @@ public class OrderType {
             new HashMap<Integer, OrderTypeTypes>(OrderTypeTypes.values().length);
 
 	private String name;	
-	private int ID;
+	private final int ID;
 
     @Deprecated
 	public enum OrderTypeTypes {

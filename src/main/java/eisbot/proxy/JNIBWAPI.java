@@ -40,12 +40,12 @@ public class JNIBWAPI {
     /**
      * callback listener for BWAPI events
      */
-    private BWAPIEventListener listener;
+    private final BWAPIEventListener listener;
 
     // game state
     private int gameFrame = 0;
     private Map map;
-    private HashMap<Integer, Unit> units = new HashMap<Integer, Unit>();
+    private final HashMap<Integer, Unit> units = new HashMap<Integer, Unit>();
     private ArrayList<Unit> playerUnits = new ArrayList<Unit>();
     private ArrayList<Unit> alliedUnits = new ArrayList<Unit>();
     private ArrayList<Unit> enemyUnits = new ArrayList<Unit>();
@@ -53,11 +53,11 @@ public class JNIBWAPI {
 
     // player lists
     private Player self;
-    private HashSet<Integer> allyIDs = new HashSet<Integer>();
-    private HashSet<Integer> enemyIDs = new HashSet<Integer>();
-    private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
-    private ArrayList<Player> allies = new ArrayList<Player>();
-    private ArrayList<Player> enemies = new ArrayList<Player>();
+    private final HashSet<Integer> allyIDs = new HashSet<Integer>();
+    private final HashSet<Integer> enemyIDs = new HashSet<Integer>();
+    private final HashMap<Integer, Player> players = new HashMap<Integer, Player>();
+    private final ArrayList<Player> allies = new ArrayList<Player>();
+    private final ArrayList<Player> enemies = new ArrayList<Player>();
 
     // invokes the main native method
     private native void startClient(JNIBWAPI jniBWAPI);
@@ -317,16 +317,16 @@ public class JNIBWAPI {
     private native int[] getUnitsInRadiusBWAPI(int centerX, int centerY, int radius);
 
     // type data
-    private HashMap<Integer, UnitInfo> unitTypes = new HashMap<Integer, UnitInfo>();
-    private HashMap<Integer, TechType> techTypes = new HashMap<Integer, TechType>();
-    private HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<Integer, UpgradeType>();
-    private HashMap<Integer, WeaponType> weaponTypes = new HashMap<Integer, WeaponType>();
-    private HashMap<Integer, UnitSizeType> unitSizeTypes = new HashMap<Integer, UnitSizeType>();
-    private HashMap<Integer, BulletType> bulletTypes = new HashMap<Integer, BulletType>();
-    private HashMap<Integer, DamageType> damageTypes = new HashMap<Integer, DamageType>();
-    private HashMap<Integer, ExplosionType> explosionTypes = new HashMap<Integer, ExplosionType>();
-    private HashMap<Integer, UnitCommandType> unitCommandTypes = new HashMap<Integer, UnitCommandType>();
-    private HashMap<Integer, OrderType> orderTypes = new HashMap<Integer, OrderType>();
+    private final HashMap<Integer, UnitInfo> unitTypes = new HashMap<Integer, UnitInfo>();
+    private final HashMap<Integer, TechType> techTypes = new HashMap<Integer, TechType>();
+    private final HashMap<Integer, UpgradeType> upgradeTypes = new HashMap<Integer, UpgradeType>();
+    private final HashMap<Integer, WeaponType> weaponTypes = new HashMap<Integer, WeaponType>();
+    private final HashMap<Integer, UnitSizeType> unitSizeTypes = new HashMap<Integer, UnitSizeType>();
+    private final HashMap<Integer, BulletType> bulletTypes = new HashMap<Integer, BulletType>();
+    private final HashMap<Integer, DamageType> damageTypes = new HashMap<Integer, DamageType>();
+    private final HashMap<Integer, ExplosionType> explosionTypes = new HashMap<Integer, ExplosionType>();
+    private final HashMap<Integer, UnitCommandType> unitCommandTypes = new HashMap<Integer, UnitCommandType>();
+    private final HashMap<Integer, OrderType> orderTypes = new HashMap<Integer, OrderType>();
 
     // type data accessors
     private UnitInfo getUnitInfo(int unitID) {
@@ -478,6 +478,9 @@ public class JNIBWAPI {
      *         there are no units on the build tile defined by (tileX, tileY)
      */
     public Set<Unit> getUnitsOnBuildTile(int tileX, int tileY) {
+        if (tileX < 0 || tileY < 0 || tileX > 256 || tileY > 256) {
+            return Collections.emptySet();
+        }
         final int[] unitIds = getUnitsOnTile(tileX, tileY);
         if (unitIds.length == 0) {
             return Collections.emptySet();
@@ -531,8 +534,7 @@ public class JNIBWAPI {
         if (res.length == 1) {
             return null;
         }
-        final ChokePoint cp = new ChokePoint(res, 0);
-        return cp;
+        return new ChokePoint(res, 0);
     }
 
     /**

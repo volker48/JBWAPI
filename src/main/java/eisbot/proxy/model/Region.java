@@ -10,12 +10,12 @@ public class Region {
 
 	public static final int numAttributes = 3;
 
-	private int ID;
-	private int centerX;
-	private int centerY;
+	private final int ID;
+	private final int centerX;
+	private final int centerY;
 	private int[] coordinates;
-	private ArrayList<Region> connectedRegions = new ArrayList<Region>();
-	private ArrayList<ChokePoint> chokePoints = new ArrayList<ChokePoint>();
+	private final ArrayList<Region> connectedRegions = new ArrayList<Region>();
+	private final ArrayList<ChokePoint> chokePoints = new ArrayList<ChokePoint>();
 	
 	public Region(int[] data, int index) {
 		ID = data[index++];	

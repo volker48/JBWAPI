@@ -17,10 +17,10 @@ import eisbot.proxy.types.UnitType;
 public class ExampleAIClient implements BWAPIEventListener {
 
 	/** reference to JNI-BWAPI */
-	private JNIBWAPI bwapi;
+	private final JNIBWAPI bwapi;
 
 	/** used for mineral splits */
-	private HashSet<Integer> claimed = new HashSet<Integer>();
+	private final HashSet<Integer> claimed = new HashSet<Integer>();
 
 	/** has drone 5 been morphed */
 	private boolean morphedDrone = false;

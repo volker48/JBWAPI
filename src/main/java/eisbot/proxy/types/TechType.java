@@ -9,16 +9,16 @@ public class TechType {
 	public static final int numAttributes = 10;
 
 	private String name;	
-	private int ID;
-	private int raceID;
-	private int mineralPrice;
-	private int gasPrice;
-	private int researchTime;
-	private int energyUsed;
-	private int whatResearchesTypeID;
-	private int getWeaponID;
-	private boolean targetsUnits;
-	private boolean targetsPosition;
+	private final int ID;
+	private final int raceID;
+	private final int mineralPrice;
+	private final int gasPrice;
+	private final int researchTime;
+	private final int energyUsed;
+	private final int whatResearchesTypeID;
+	private final int getWeaponID;
+	private final boolean targetsUnits;
+	private final boolean targetsPosition;
 	
 	public enum TechTypes {
 		Stim_Packs,

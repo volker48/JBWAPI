@@ -7,18 +7,18 @@ import java.util.ArrayList;
  */
 public class Map {
 
-    private int width;
-    private int height;
-    private int walkWidth;
-    private int walkHeight;
-    private String name;
-    private String hash;
-    private int[] heightMap;
-    private boolean[] buildable;
-    private boolean[] walkable;
-    private ArrayList<Region> regions = new ArrayList<Region>();
-    private ArrayList<ChokePoint> chokePoints = new ArrayList<ChokePoint>();
-    private ArrayList<BaseLocation> baseLocations = new ArrayList<BaseLocation>();
+    private final int width;
+    private final int height;
+    private final int walkWidth;
+    private final int walkHeight;
+    private final String name;
+    private final String hash;
+    private final int[] heightMap;
+    private final boolean[] buildable;
+    private final boolean[] walkable;
+    private final ArrayList<Region> regions = new ArrayList<Region>();
+    private final ArrayList<ChokePoint> chokePoints = new ArrayList<ChokePoint>();
+    private final ArrayList<BaseLocation> baseLocations = new ArrayList<BaseLocation>();
 
     public Map(int width, int height, String name, String hash, int[] heightMap, int[] buildable, int[] walkable) {
         this.width = width;

@@ -9,30 +9,30 @@ public class WeaponType {
 	public static final int numAttributes = 24;
 
 	private String name;	
-	private int ID;
-	private int techID;
-	private int whatUsesTypeID;
-	private int damageAmount;
-	private int damageBonus;
-	private int damageCooldown;
-	private int damageFactor;
-	private int upgradeTypeID;
-	private int damageTypeID;
-	private int explosionType;
-	private int minRange;
-	private int maxRange;
-	private int innerSplashRadius;
-	private int medianSplashRadius;
-	private int outerSplashRadius;
-	private boolean targetsAir;
-	private boolean targetsGround;
-	private boolean targetsMechanical;
-	private boolean targetsOrganic;
-	private boolean targetsNonBuilding;
-	private boolean targetsNonRobotic;
-	private boolean targetsTerrain;
-	private boolean targetsOrgOrMech;
-	private boolean targetsOwn;
+	private final int ID;
+	private final int techID;
+	private final int whatUsesTypeID;
+	private final int damageAmount;
+	private final int damageBonus;
+	private final int damageCooldown;
+	private final int damageFactor;
+	private final int upgradeTypeID;
+	private final int damageTypeID;
+	private final int explosionType;
+	private final int minRange;
+	private final int maxRange;
+	private final int innerSplashRadius;
+	private final int medianSplashRadius;
+	private final int outerSplashRadius;
+	private final boolean targetsAir;
+	private final boolean targetsGround;
+	private final boolean targetsMechanical;
+	private final boolean targetsOrganic;
+	private final boolean targetsNonBuilding;
+	private final boolean targetsNonRobotic;
+	private final boolean targetsTerrain;
+	private final boolean targetsOrgOrMech;
+	private final boolean targetsOwn;
 	
 	public enum WeaponTypes {
 		Gauss_Rifle,

@@ -9,16 +9,16 @@ public class UpgradeType {
 	public static final int numAttributes = 10;
 
 	private String name;	
-	private int ID;
-	private int raceID;
-	private int mineralPriceBase;
-	private int mineralPriceFactor;
-	private int gasPriceBase;
-	private int gasPriceFactor;
-	private int upgradeTimeBase;
-	private int upgradeTimeFactor;
-	private int maxRepeats;
-	private int whatUpgradesTypeID;
+	private final int ID;
+	private final int raceID;
+	private final int mineralPriceBase;
+	private final int mineralPriceFactor;
+	private final int gasPriceBase;
+	private final int gasPriceFactor;
+	private final int upgradeTimeBase;
+	private final int upgradeTimeFactor;
+	private final int maxRepeats;
+	private final int whatUpgradesTypeID;
 	
 	public enum UpgradeTypes {
 		Terran_Infantry_Armor,

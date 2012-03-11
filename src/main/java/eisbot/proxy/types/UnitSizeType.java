@@ -9,7 +9,7 @@ public class UnitSizeType {
 	public static final int numAttributes = 1;
 
 	private String name;	
-	private int ID;
+	private final int ID;
 	
 	public enum UnitSizes {
 		Independent,

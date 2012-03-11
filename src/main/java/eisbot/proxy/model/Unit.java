@@ -13,7 +13,7 @@ public class Unit {
     public static final double TO_DEGREES = 180.0 / Math.PI;
     public static final double fixedScale = 100.0;
 
-    private int ID;
+    private final int ID;
     private int playerID;
     private int typeID;
     private int x;

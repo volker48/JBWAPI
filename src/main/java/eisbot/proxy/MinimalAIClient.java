@@ -6,7 +6,7 @@ import eisbot.proxy.model.Unit;
 import eisbot.proxy.util.BWColor;
 public class MinimalAIClient implements BWAPIEventListener {
 
-	JNIBWAPI bwapi;
+	final JNIBWAPI bwapi;
 	public static void main(String[] args) {
 		new MinimalAIClient();
 	}

@@ -10,16 +10,16 @@ public class ChokePoint {
 
     public static final int numAttributes = 9;
     public static final double fixedScale = 100.0;
-    private Position center;
-    private int centerX;
-    private int centerY;
-    private double radius;
-    private int firstRegionID;
-    private int secondRegionID;
-    private int firstSideX;
-    private int firstSideY;
-    private int secondSideX;
-    private int secondSideY;
+    private final Position center;
+    private final int centerX;
+    private final int centerY;
+    private final double radius;
+    private final int firstRegionID;
+    private final int secondRegionID;
+    private final int firstSideX;
+    private final int firstSideY;
+    private final int secondSideX;
+    private final int secondSideY;
     private Region firstRegion;
     private Region secondRegion;
 

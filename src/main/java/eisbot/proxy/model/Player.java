@@ -9,14 +9,14 @@ public class Player {
 
     public static final int numAttributes = 10;
 
-    private int ID;
-    private int raceID;
-    private int typeID;
-    private boolean self;
-    private boolean ally;
-    private boolean enemy;
-    private boolean neutral;
-    private int color;
+    private final int ID;
+    private final int raceID;
+    private final int typeID;
+    private final boolean self;
+    private final boolean ally;
+    private final boolean enemy;
+    private final boolean neutral;
+    private final int color;
     private final TilePosition startLocation;//adds two attributes x,y.
 
     private int minerals;
